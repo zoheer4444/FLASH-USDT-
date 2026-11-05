@@ -417,4 +417,33 @@ function Dashboard() {
                 </button>
               ))}
             </div>
-          
+            {tab === 'sign' && <SignPanel />}
+            {tab === 'send' && <SendPanel />}
+            {tab === 'token' && <TokenPanel />}
+          </section>
+        </>
+      )}
+
+      <ConnectModal open={open} onClose={() => setOpen(false)} />
+    </main>
+  );
+}
+
+/* ───────────── Page (providers + dashboard) ───────────── */
+
+function Providers({ children }: { children: ReactNode }) {
+  const [queryClient] = useState(() => new QueryClient());
+  return (
+    <WagmiProvider config={config}>
+      <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
+    </WagmiProvider>
+  );
+}
+
+export default function Page() {
+  return (
+    <Providers>
+      <Dashboard />
+    </Providers>
+  );
+}
